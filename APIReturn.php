@@ -17,9 +17,9 @@ class APIReturn
      */
     private array $errors = [];
     /** 
-     * @var object $data The data that was returned by the API call.
+     * @var $data The data that was returned by the API call.
      */
-    private object $data;
+    private $data;
 
     public function __construct($request_type = get_request)
     {
