@@ -1,5 +1,7 @@
 <?php
 
+namespace APIReturn;
+
 define('get_request', 'GET');
 define('post_request', 'POST');
 
@@ -20,6 +22,10 @@ class APIReturn
      * @var $data The data that was returned by the API call.
      */
     private $data;
+    /** 
+     * @var string $request_type The request type of the API call.
+     */
+    private string $request_type;
 
     public function __construct($request_type = get_request)
     {
