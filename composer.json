@@ -1,0 +1,20 @@
+{
+    "name": "jessesoeteman/api-return",
+    "description": "This class can be used to manage the status of an api request.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ApiReturn\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jesse Soeteman",
+            "email": "jessesoeteman@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    }
+}
