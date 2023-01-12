@@ -21,7 +21,7 @@ class APIReturn
     /** 
      * @var $data The data that was returned by the API call.
      */
-    private $data;
+    private array $data = [];
     /** 
      * @var string $request_type The request type of the API call.
      */
@@ -63,7 +63,9 @@ class APIReturn
      */
     public function addData($data, bool $exit = false)
     {
-        $this->data = $data;
+        // Append the data to the data array.
+        $this->data[] = $data;
+        // $this->data = $data;
         if ($exit) {
             $this->APIExit();
         }
