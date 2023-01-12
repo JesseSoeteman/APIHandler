@@ -116,6 +116,6 @@ This example will give the following output:
 
 ## License
 
-This project is licensed under the [MIT](LICENSE)
- License - see the [LICENSE](LICENSE) file for
+This project is licensed under the [MIT](license)
+ License - see the [LICENSE](license) file for
 details
