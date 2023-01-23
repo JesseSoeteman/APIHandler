@@ -28,6 +28,10 @@ class APIHandler
 
     public function __construct($request_method = RequestMethod::GET)
     {
+        if (!headers_sent()) {
+            header('Content-Type: application/json');
+        }
+        
         $this->request_method = $request_method;
         if ($_SERVER['REQUEST_METHOD'] != $this->request_method) {
             $this->addError("Request method needs to be {$this->request_method}", true);
