@@ -2,8 +2,7 @@
 
 namespace APIHandler;
 
-define('get_request', 'GET');
-define('post_request', 'POST');
+use APIHandler\Classes\RequestMethod;
 
 /**
  * APIHandler class to handel the status of an API call.
@@ -25,13 +24,13 @@ class APIHandler
     /** 
      * @var string $request_type The request type of the API call.
      */
-    private string $request_type;
+    private string $request_method;
 
-    public function __construct($request_type = get_request)
+    public function __construct($request_method = RequestMethod::GET)
     {
-        $this->request_type = $request_type;
-        if ($_SERVER['REQUEST_METHOD'] != $this->request_type) {
-            $this->addError("Request method needs to be {$this->request_type}", true);
+        $this->request_method = $request_method;
+        if ($_SERVER['REQUEST_METHOD'] != $this->request_method) {
+            $this->addError("Request method needs to be {$this->request_method}", true);
         }
     }
 
