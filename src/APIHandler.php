@@ -22,7 +22,7 @@ class APIHandler
      */
     private array $data = [];
     /** 
-     * @var string $request_type The request type of the API call.
+     * @var string $request_method The request type of the API call.
      */
     private string $request_method;
 
@@ -50,7 +50,7 @@ class APIHandler
         }
 
         if ($exit) {
-            $this->APIExit();
+            $this->Exit();
         }
     }
 
@@ -66,21 +66,25 @@ class APIHandler
         $this->data[] = $data;
         // $this->data = $data;
         if ($exit) {
-            $this->APIExit();
+            $this->Exit();
         }
     }
 
-    public function APIExitOnError()
+    /**
+     * Exits if there is an error.
+     * 
+     */
+    public function ExitOnError()
     {
         if (!empty($this->errors)) {
-            $this->APIExit();
+            $this->Exit();
         }
     }
 
     /**
      * Return the result of the API call.
      */
-    public function APIExit()
+    public function Exit()
     {
         $result = [];
         $result['status'] = "error";
