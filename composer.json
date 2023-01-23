@@ -1,11 +1,11 @@
 {
-    "name": "jessesoeteman/api-return",
+    "name": "jessesoeteman/api-handler",
     "description": "This class can be used to manage the status of an api request.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "APIReturn\\": "src/"
+            "APIHandler\\": "src/"
         }
     },
     "authors": [
