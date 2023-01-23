@@ -1,18 +1,18 @@
 <?php
 
-namespace APIReturn;
+namespace APIHandler;
 
 define('get_request', 'GET');
 define('post_request', 'POST');
 
 /**
- * APIReturn class to return the result of an API call.
+ * APIHandler class to handel the status of an API call.
  * 
  * @author  Jesse Soeteman
  * @version 1.0
  * @since   2022-12-24
  */
-class APIReturn
+class APIHandler
 {
     /** 
      * @var array $errors The errors that occurred during the API call.

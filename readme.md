@@ -1,4 +1,4 @@
-# APIReturn 
+# APIHandler
 This class can be used to manage the status of an api request.
 
 ## Requirements
@@ -6,20 +6,20 @@ There are a couple things you will need in order to use this php class.
 - php 8.0
 - composer
 
-## How to use APIReturn?
+## How to use APIHandler?
 
-### Require APIReturn
-If you have composer initialized you can run this command in you terminal to download APIReturn.
+### Require APIHandler
+If you have composer initialized you can run this command in you terminal to download APIHandler.
 ```console
-$ composer require jessesoeteman/api-return
+$ composer require jessesoeteman/api-handler
 ```
 
-### Require the autoloader and APIReturn
+### Require the autoloader and APIHandler
 You will need to require the autoloader in your code, after that you can 'use' the APIReturn class.
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use APIReturn\APIReturn;
+use APIHandler\APIHandler;
 ```
 
 ### Basic usage
@@ -32,7 +32,7 @@ The class needs one parameter that tells one of the following request types:
 
 In this example we will use a GET request.
 ```php
-$apiReturn = new APIReturn(get_request);
+$apiHandler = new APIHandler(get_request);
 ```
 If the request type is not right the class will echo and exit: 
 ```json 
@@ -49,32 +49,32 @@ Let's say the an error occured, we can then add the error to the errors array.
 The first parameter can be a string or an array, this contains the error you want to add.
 The second parameter is a boolean (false on default), if the boolean is true, the script will echo a json object and exit.
 ```php
-$apiReturn->addError("error 1");
-$apiReturn->addError("error 2");
+$apiHandler->addError("error 1");
+$apiHandler->addError("error 2");
 
-$apiReturn->addError("error 3", true); // <-- Exits here
+$apiHandler->addError("error 3", true); // <-- Exits here
 
-$apiReturn->addError("error 4");
+$apiHandler->addError("error 4");
 ```
 ```php 
-$apiReturn->addError("error 1");
-$apiReturn->addError("error 2");
-$apiReturn->addError("error 3");
+$apiHandler->addError("error 1");
+$apiHandler->addError("error 2");
+$apiHandler->addError("error 3");
 
-$apiReturn->APIExitOnError(); // <-- Exits here
+$apiHandler->APIExitOnError(); // <-- Exits here
 
-$apiReturn->addError("error 4");
-$apiReturn->addData([]);
-$apiReturn->APIExit();
+$apiHandler->addError("error 4");
+$apiHandler->addData([]);
+$apiHandler->APIExit();
 ```
 ```php
-$apiReturn->addError("error 1");
-$apiReturn->addError("error 2");
-$apiReturn->addError("error 3");
+$apiHandler->addError("error 1");
+$apiHandler->addError("error 2");
+$apiHandler->addError("error 3");
 
-$apiReturn->addData([]);
+$apiHandler->addData([]);
 
-$apiReturn->APIExit(); // <-- Exits here
+$apiHandler->APIExit(); // <-- Exits here
 ```
 In the 3 examples above the class will echo the following and exit the script:
 ```json
@@ -92,15 +92,15 @@ In the 3 examples above the class will echo the following and exit the script:
 If the request was succesfull and no errors occured the class will echo that there was a succes:
 ```php
 if (false) {
-    $apiReturn->addError("error 1"); // Error wont be added.
+    $apiHandler->addError("error 1"); // Error wont be added.
 }
-$apiReturn->APIExitOnError(); // <-- Does not exit because there is no error.
+$apiHandler->APIExitOnError(); // <-- Does not exit because there is no error.
 
-$apiReturn->addData({});
-$apiReturn->addData([]);
-$apiReturn->addData("Hello World!");
+$apiHandler->addData({});
+$apiHandler->addData([]);
+$apiHandler->addData("Hello World!");
 
-$apiReturn->APIExit(); // <-- Exits here
+$apiHandler->APIExit(); // <-- Exits here
 ```
 This example will give the following output:
 ```json
@@ -113,6 +113,7 @@ This example will give the following output:
     ]
 }
 ```
+
 
 ## License
 
