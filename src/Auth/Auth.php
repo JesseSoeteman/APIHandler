@@ -8,7 +8,7 @@ class Auth {
 
     private APIHandler $apiHandler;
 
-    public function __construct(APIHandler &$apiHandler) {
+    public function __construct(APIHandler &$apiHandler, $project_id) {
 
         if (!isset($apiHandler)) {
             $this->apiHandler = new APIHandler();
@@ -16,16 +16,23 @@ class Auth {
         }
 
         $this->apiHandler = $apiHandler;
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
     }
 
-    public function InitSession() {
+    public function InitEncryptSession() {
         $this->apiHandler->addError("Session not initialized", true);
     }
 
-    public function GetSessionVariable() {
+    public function GetSessionEncryptVariable() {
+
     }
 
-    public function SetSessionVariable() {
+    public function SetSessionEncryptVariable() {
+
     }
 
     public function CheckPermission() {
