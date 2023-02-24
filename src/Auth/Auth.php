@@ -44,6 +44,9 @@ class Auth
             $this->apiHandler->addError("Client key is not valid, regex", true);
         }
 
+        // Remove the first 2 characters
+        $client_publicKey = substr($client_publicKey, 2);
+
         // Check if the session is already initialized, wich means that the client is already authenticated
         if (
             isset($_SESSION[$this->project_id . "APIHANDLER_AUTH_client_publicKey"]) ||
