@@ -67,10 +67,12 @@ class Auth
             $this->apiHandler->addError("Private key could not be generated", true);
         }
 
-        $this->apiHandler->addData([
-            "server_privateKey" => json_encode($server_privateKey),
-            "client_publicKey" => $client_publicKey
-        ], true);
+        var_dump(openssl_pkey_get_details($server_privateKey));
+
+        // $this->apiHandler->addData([
+        //     "server_privateKey" => $server_privateKey,
+        //     "client_publicKey" => $client_publicKey
+        // ], true);
 
         // Create a shared secret, and check if it is valid
         $shared_secret = openssl_dh_compute_key(hex2bin($client_publicKey), $server_privateKey);
