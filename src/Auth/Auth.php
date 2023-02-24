@@ -39,14 +39,6 @@ class Auth
             $this->apiHandler->addError("Client key not set", true);
         }
 
-        // Validate the client key
-        if (!preg_match('/^04[0-9a-f]{128}$/', $client_publicKey)) {
-            $this->apiHandler->addError("Client key is not valid, regex", true);
-        }
-
-        // Remove the first 2 characters
-        $client_publicKey = substr($client_publicKey, 2);
-
         // Check if the session is already initialized, wich means that the client is already authenticated
         if (
             isset($_SESSION[$this->project_id . "APIHANDLER_AUTH_client_publicKey"]) ||
@@ -56,8 +48,21 @@ class Auth
             $this->apiHandler->addError("Session already initialized", true);
         }
 
+
+        // Validate the client key
+        if (!preg_match('/^04[0-9a-f]{128}$/', $client_publicKey)) {
+            $this->apiHandler->addError("Client key is not valid, regex", true);
+        }
+
+        // Convert the client key to binary
+        $client_publicKeyBin = hex2bin($client_publicKey);
+
+        if (!$client_publicKeyBin) {
+            $this->apiHandler->addError("Client key is not valid, hex2bin", true);
+        }
+
         // Check if the client key does exist in the elliptic curve
-        if (!openssl_get_publickey($client_publicKey)) {
+        if (!openssl_get_publickey($client_publicKeyBin)) {
             $this->apiHandler->addError("Client key does not exist in the elliptic curve", true);
         }
 
