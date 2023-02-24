@@ -88,6 +88,8 @@ class Auth
             $error = "The shared secret could not be generated.";
             if (openssl_error_string()) {
                 $error .= " " . openssl_error_string();
+            } else {
+                $error .= " No openssl error string.";
             }
             $this->apiHandler->addError($error, true);
         }
