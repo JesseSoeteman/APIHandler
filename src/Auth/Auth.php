@@ -84,7 +84,7 @@ class Auth
         ], true);
 
         // Create a shared secret, and check if it is valid
-        $shared_secret = openssl_dh_compute_key($client_publicKey, $server_privateKey);
+        $shared_secret = openssl_dh_compute_key(hex2bin($client_publicKey), $server_privateKey);
         if (!$shared_secret) {
             $error = "The shared secret could not be generated.";
             if (openssl_error_string()) {
