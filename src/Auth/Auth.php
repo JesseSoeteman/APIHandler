@@ -64,7 +64,7 @@ class Auth
 
         // Generate a new private key
         $server_privateKey = openssl_pkey_new(array(
-            "curve_name" => "secp256r1",
+            "curve_name" => "prime256v1", // prime256v1 == secp256r1 is the name of the elliptic curve
         ));
 
         if (!$server_privateKey) {
