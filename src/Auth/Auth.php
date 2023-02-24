@@ -68,8 +68,8 @@ class Auth
         }
 
         $this->apiHandler->addData([
-            "server_privateKey" => $server_privateKey,
-            "client_publicKey" => json_encode($client_publicKey)
+            "server_privateKey" => json_encode($server_privateKey),
+            "client_publicKey" => $client_publicKey
         ], true);
 
         // Create a shared secret, and check if it is valid
