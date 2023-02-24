@@ -60,23 +60,12 @@ class Auth
 
         // Generate a new private key
         $server_privateKey = openssl_pkey_new(array(
-            "curve_name" => "prime256v1", // prime256v1 == secp256r1 is the name of the elliptic curve
+            "curve_name" => "prime256v1" // prime256v1 === secp256r1
         ));
 
         if (!$server_privateKey) {
             $this->apiHandler->addError("Private key could not be generated", true);
         }
-
-        // // Get the private key
-        // if (openssl_pkey_export($server_privateKey, $server_privateKey)) {
-        //     $this->apiHandler->addError("Private key could not be exported", true);
-        // }
-
-        // // Get the public key
-        // $server_publicKey = openssl_pkey_get_details($server_privateKey);
-        // if (!$server_publicKey) {
-        //     $this->apiHandler->addError("Public key could not be generated", true);
-        // }
 
         // $this->apiHandler->addData([
         //     "server_privateKey" => $server_privateKey,
