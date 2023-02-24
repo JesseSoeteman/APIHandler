@@ -54,17 +54,13 @@ class Auth
             $this->apiHandler->addError("Client key is not valid, regex", true);
         }
 
-        // Convert the client key to binary
-        $client_publicKeyBin = hex2bin($client_publicKey);
+        // Remove the 04 from the client key
+        $client_publicKey = substr($client_publicKey, 2);
 
-        if (!$client_publicKeyBin) {
-            $this->apiHandler->addError("Client key is not valid, hex2bin", true);
-        }
-
-        // Check if the client key does exist in the elliptic curve
-        if (!openssl_get_publickey($client_publicKeyBin)) {
-            $this->apiHandler->addError("Client key does not exist in the elliptic curve", true);
-        }
+        // // Check if the client key does exist in the elliptic curve
+        // if (!openssl_get_publickey($client_publicKey)) {
+        //     $this->apiHandler->addError("Client key does not exist in the elliptic curve", true);
+        // }
 
         // Generate a new private key
         $server_privateKey = openssl_pkey_new(array(
@@ -75,29 +71,37 @@ class Auth
             $this->apiHandler->addError("Private key could not be generated", true);
         }
 
-        // Get the private key
-        if (openssl_pkey_export($server_privateKey, $server_privateKey)) {
-            $this->apiHandler->addError("Private key could not be exported", true);
+        // // Get the private key
+        // if (openssl_pkey_export($server_privateKey, $server_privateKey)) {
+        //     $this->apiHandler->addError("Private key could not be exported", true);
+        // }
+
+        // // Get the public key
+        // $server_publicKey = openssl_pkey_get_details($server_privateKey);
+        // if (!$server_publicKey) {
+        //     $this->apiHandler->addError("Public key could not be generated", true);
+        // }
+
+        // Create a shared secret, and check if it is valid
+        $shared_secret = openssl_dh_compute_key($client_publicKey, $server_privateKey);
+        if (!$shared_secret) {
+            $this->apiHandler->addError("The shared secret could not be generated.", true);
         }
 
-        // Get the public key
-        $server_publicKey = openssl_pkey_get_details($server_privateKey);
-        if (!$server_publicKey) {
-            $this->apiHandler->addError("Public key could not be generated", true);
+        // Save the shared secret in the session
+        $server_encrypted_shared_secret = openssl_encrypt($shared_secret, "AES-256-CBC", hash("sha256", session_id()));
+        if (!$server_encrypted_shared_secret) {
+            $this->apiHandler->addError("The shared secret could not be encrypted.", true);
         }
+        $_SESSION[$this->project_id . "_APIHANDLER_AUTH_shared_secret"] = $server_encrypted_shared_secret;
 
-        // Encrypt the public key with the client key
-        if (!openssl_public_encrypt($server_publicKey["key"], $server_encryptedPublicKey, $client_publicKey)) {
+        // Encrypt the shared secret with the client public key
+        if (!openssl_public_encrypt($shared_secret, $encrypted_shared_secret, $client_publicKey)) {
             $this->apiHandler->addError("Public key could not be encrypted", true);
         }
 
-        // Set the session variables
-        $_SESSION[$this->project_id . "_APIHANDLER_AUTH_client_publicKey"] = $client_publicKey;
-        $_SESSION[$this->project_id . "_APIHANDLER_AUTH_server_privateKey"] = $server_privateKey;
-        $_SESSION[$this->project_id . "_APIHANDLER_AUTH_server_publicKey"] = $server_publicKey["key"];
-
-        // Return the encrypted public key
-        return $server_encryptedPublicKey;
+        // Return the encrypted shared secret
+        return $encrypted_shared_secret;
     }
 
     public function DestroySession(): bool
