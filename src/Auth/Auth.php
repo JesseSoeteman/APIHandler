@@ -85,7 +85,11 @@ class Auth
         // Create a shared secret, and check if it is valid
         $shared_secret = openssl_dh_compute_key($client_publicKey, $server_privateKey);
         if (!$shared_secret) {
-            $this->apiHandler->addError("The shared secret could not be generated." . openssl_error_string(), true);
+            $error = "The shared secret could not be generated.";
+            if (openssl_error_string()) {
+                $error .= " " . openssl_error_string();
+            }
+            $this->apiHandler->addError($error, true);
         }
 
         // Save the shared secret in the session
