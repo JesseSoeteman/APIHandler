@@ -40,8 +40,8 @@ class Auth
         }
 
         // Validate the client key
-        if (!preg_match('/^04[0-9a-f]{64}$/', $client_publicKey)) {
-            $this->apiHandler->addError("Client key is not valid", true);
+        if (!preg_match('/^04[0-9a-f]{128}$/', $client_publicKey)) {
+            $this->apiHandler->addError("Client key is not valid, regex", true);
         }
 
         // Check if the session is already initialized, wich means that the client is already authenticated
