@@ -40,11 +40,7 @@ class Auth
         }
 
         // Check if the session is already initialized, wich means that the client is already authenticated
-        if (
-            isset($_SESSION[$this->project_id . "APIHANDLER_AUTH_client_publicKey"]) ||
-            isset($_SESSION[$this->project_id . "APIHANDLER_AUTH_privateKey"]) ||
-            isset($_SESSION[$this->project_id . "APIHANDLER_AUTH_publicKey"])
-        ) {
+        if (isset($_SESSION[$this->project_id . "_APIHANDLER_AUTH_shared_secret"])) {
             $this->apiHandler->addError("Session already initialized", true);
         }
 
@@ -82,6 +78,11 @@ class Auth
         //     $this->apiHandler->addError("Public key could not be generated", true);
         // }
 
+        $this->apiHandler->addData([
+            "server_privateKey" => $server_privateKey,
+            "client_publicKey" => $client_publicKey
+        ]);
+
         // Create a shared secret, and check if it is valid
         $shared_secret = openssl_dh_compute_key($client_publicKey, $server_privateKey);
         if (!$shared_secret) {
@@ -117,9 +118,7 @@ class Auth
         }
 
         // Delete the session variables
-        unset($_SESSION[$this->project_id . "_APIHANDLER_AUTH_client_publicKey"]);
-        unset($_SESSION[$this->project_id . "_APIHANDLER_AUTH_server_privateKey"]);
-        unset($_SESSION[$this->project_id . "_APIHANDLER_AUTH_server_publicKey"]);
+        unset($_SESSION[$this->project_id . "_APIHANDLER_AUTH_shared_secret"]);
 
         // Destroy the session
         if (!session_destroy()) {
