@@ -92,8 +92,9 @@ class APIHandler
             $result['status'] = "success";
             if (!empty($this->data)) {
                 $result['data'] = $this->data;
+            } else {
+                $result['data'] = [];
             }
-            
             echo json_encode($result);
             exit();
         }
