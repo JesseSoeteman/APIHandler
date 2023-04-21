@@ -42,13 +42,14 @@ class APIHandler
      */
     public function addError(string | array $error, bool $exit = false)
     {
-
+        // Adding the error of errors to the errors array.
         if (is_array($error) && !empty($error)) {
             $this->errors = array_merge($this->errors, $error);
         } else if (is_string($error) && !empty($error)){
             $this->errors[] = $error;
         }
 
+        // exit the api call if the exit parameter is true.
         if ($exit) {
             $this->Exit();
         }
@@ -76,6 +77,7 @@ class APIHandler
      */
     public function ExitOnError()
     {
+        // Checks if there are any errors.
         if (!empty($this->errors)) {
             $this->Exit();
         }
@@ -86,15 +88,13 @@ class APIHandler
      */
     public function Exit()
     {
+        // Return the result of the API call.
         $result = [];
         $result['status'] = "error";
+        // set the status to success and add the data to the result if there are no errors.
         if (empty($this->errors)) {
             $result['status'] = "success";
-            if (!empty($this->data)) {
-                $result['data'] = $this->data;
-            } else {
-                $result['data'] = [];
-            }
+            $result['data'] = $this->data;
             echo json_encode($result);
             exit();
         }
