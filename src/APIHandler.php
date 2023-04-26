@@ -5,7 +5,7 @@ namespace APIHandler;
 use APIHandler\Classes\RequestMethod;
 
 /**
- * APIHandler class to handel the status of an API call.
+ * APIHandler class to handle the status of an API call.
  * 
  * @author  Jesse Soeteman
  * @version 1.0
